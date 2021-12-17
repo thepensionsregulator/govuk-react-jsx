@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "deploy-demo": "npm run build-storybook && gh-pages -d storybook-static",
-    "build": "./scripts/build.sh",
+    "build": "pwsh ./scripts/build.ps1",
     "publish-local": "./scripts/publish-local.sh",
     "publish-npm": "./scripts/publish-npm.sh"
   },
