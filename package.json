@@ -1,5 +1,5 @@
 {
-  "name": "govuk-react-jsx",
+  "name": "@tpr/govuk-react-jsx",
   "version": "6.2.1",
   "description": "React component ports of govuk-frontend nunjucks macros. Directly consuming govuk-frontend CSS & JS.",
   "main": "src/govuk/index.js",

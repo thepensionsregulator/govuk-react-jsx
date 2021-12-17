@@ -1,5 +1,5 @@
 {
-  "name": "govuk-react-jsx",
+  "name": "@tpr/govuk-react-jsx",
   "version": "PACKAGE_VERSION",
   "description": "",
   "main": "govuk/index.js",
