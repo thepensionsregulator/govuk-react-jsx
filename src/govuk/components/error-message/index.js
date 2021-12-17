@@ -1,16 +1,31 @@
 import React from 'react';
 
 function ErrorMessage(props) {
-  const { className, children, visuallyHiddenText, ...attributes } = props;
+  const {
+    govukClassNames,
+    className,
+    children,
+    visuallyHiddenText,
+    ...attributes
+  } = props;
+  const classNames = govukClassNames || {};
+  classNames['govuk-visually-hidden'] = classNames['govuk-visually-hidden'] || 'govuk-visually-hidden';
+  classNames['govuk-error-message'] = classNames['govuk-error-message'] || 'govuk-error-message';
+
   let visuallyHiddenTextComponent;
   if (visuallyHiddenText) {
     visuallyHiddenTextComponent = (
-      <span className="govuk-visually-hidden">{visuallyHiddenText}: </span>
+      <span className={classNames['govuk-visually-hidden']}>
+        {visuallyHiddenText}:{' '}
+      </span>
     );
   }
 
   return (
-    <span className={`govuk-error-message ${className || ''}`} {...attributes}>
+    <span
+      className={`${classNames['govuk-error-message']} ${className || ''}`}
+      {...attributes}
+    >
       {visuallyHiddenTextComponent}
       {children}
     </span>

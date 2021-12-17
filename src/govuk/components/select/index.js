@@ -3,6 +3,7 @@ import { Label, Hint, ErrorMessage } from '../..';
 
 const Select = React.forwardRef((props, ref) => {
   const {
+    govukClassNames,
     className,
     'aria-describedby': describedBy,
     errorMessage,
@@ -17,17 +18,28 @@ const Select = React.forwardRef((props, ref) => {
   let describedByValue = describedBy || '';
   let hintComponent;
   let errorMessageComponent;
+  const classNames = govukClassNames || {};
+  classNames['govuk-form-group'] = classNames['govuk-form-group'] || 'govuk-form-group';
+  classNames['govuk-form-group--error'] = classNames['govuk-form-group--error'] || 'govuk-form-group--error';
+  classNames['govuk-select'] = classNames['govuk-select'] || 'govuk-select';
+  classNames['govuk-select--error'] = classNames['govuk-select--error'] || 'govuk-select--error';
 
   if (hint) {
     const hintId = `${id}-hint`;
     describedByValue += ` ${hintId}`;
-    hintComponent = <Hint {...hint} id={hintId} />;
+    hintComponent = <Hint govukClassNames={classNames} {...hint} id={hintId} />;
   }
 
   if (errorMessage) {
     const errorId = id ? `${id}-error` : '';
     describedByValue += ` ${errorId}`;
-    errorMessageComponent = <ErrorMessage {...errorMessage} id={errorId} />;
+    errorMessageComponent = (
+      <ErrorMessage
+        govukClassNames={classNames}
+        {...errorMessage}
+        id={errorId}
+      />
+    );
   }
 
   const options = items
@@ -45,16 +57,16 @@ const Select = React.forwardRef((props, ref) => {
 
   return (
     <div
-      className={`govuk-form-group${
-        errorMessage ? ' govuk-form-group--error' : ''
+      className={`${classNames['govuk-form-group']}${
+        errorMessage ? ` ${classNames['govuk-form-group--error']}` : ''
       } ${formGroup?.className || ''}`}
     >
-      <Label {...label} htmlFor={id} />
+      <Label govukClassNames={classNames} {...label} htmlFor={id} />
       {hintComponent}
       {errorMessageComponent}
       <select
-        className={`govuk-select ${className || ''}${
-          errorMessage ? ' govuk-select--error' : ''
+        className={`${classNames['govuk-select']} ${className || ''}${
+          errorMessage ? ` ${classNames['govuk-select--error']}` : ''
         }`}
         id={id}
         ref={ref}

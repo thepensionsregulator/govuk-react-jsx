@@ -79,6 +79,10 @@ Exceptions to the conformance with govuk-frontend nunjucks params are as follows
 
 See [utils/processExampleData.js](utils/processExampleData.js) for the complete list of transformations.
 
+## The Pensions Regulator fork
+
+This fork introduces the `govukClassnames` prop which allows the standard GOV.UK class names to be replaced. This enables the use of CSS modules, which change the class names when they process the SASS files from govuk-frontend.
+
 ## Installation & Usage
 
 ### Installation
