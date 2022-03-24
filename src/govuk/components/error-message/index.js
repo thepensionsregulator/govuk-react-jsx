@@ -22,13 +22,13 @@ function ErrorMessage(props) {
   }
 
   return (
-    <span
+    <p
       className={`${classNames['govuk-error-message']} ${className || ''}`}
       {...attributes}
     >
       {visuallyHiddenTextComponent}
       {children}
-    </span>
+    </p>
   );
 }
 
