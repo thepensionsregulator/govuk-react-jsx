@@ -2,13 +2,17 @@ import React from 'react';
 import { Link } from '../../../utils/Link';
 
 function BackLink(props) {
-  const { children, href, to, className, ...attributes } = props;
+  const { children, href, to, govukClassNames, className, ...attributes } =
+    props;
   const contents = children;
+  const classNames = govukClassNames || {};
+  classNames['govuk-back-link'] =
+    classNames['govuk-back-link'] || 'govuk-back-link';
 
   return (
     <Link
       {...attributes}
-      className={`govuk-back-link ${className || ''}`}
+      className={`${classNames['govuk-back-link']} ${className || ''}`}
       href={href}
       to={to}
     >

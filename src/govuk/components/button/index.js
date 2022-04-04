@@ -8,6 +8,7 @@ const Button = React.forwardRef((props, ref) => {
     to,
     isStartButton,
     disabled,
+    govukClassNames,
     className,
     preventDoubleClick,
     name,
@@ -17,6 +18,15 @@ const Button = React.forwardRef((props, ref) => {
   } = props;
 
   const buttonRef = ref || React.createRef();
+
+  const classNames = govukClassNames || {};
+  classNames['govuk-button'] = classNames['govuk-button'] || 'govuk-button';
+  classNames['govuk-button--disabled'] =
+    classNames['govuk-button--disabled'] || 'govuk-button--disabled';
+  classNames['govuk-button--start'] =
+    classNames['govuk-button--start'] || 'govuk-button--start';
+  classNames['govuk-button__start-icon'] =
+    classNames['govuk-button__start-icon'] || 'govuk-button__start-icon';
 
   let el = '';
   let buttonAttributes = {
@@ -56,7 +66,7 @@ const Button = React.forwardRef((props, ref) => {
   if (isStartButton) {
     iconHtml = (
       <svg
-        className="govuk-button__start-icon"
+        className={classNames['govuk-button__start-icon']}
         xmlns="http://www.w3.org/2000/svg"
         width="17.5"
         height="19"
@@ -70,9 +80,9 @@ const Button = React.forwardRef((props, ref) => {
   }
 
   const commonAttributes = {
-    className: `govuk-button ${className || ''}${
-      disabled ? ' govuk-button--disabled' : ''
-    } ${isStartButton ? 'govuk-button--start' : ''}`,
+    className: `${classNames['govuk-button']} ${className || ''}${
+      disabled ? ` ${classNames['govuk-button--disabled']}` : ''
+    } ${isStartButton ? `${classNames['govuk-button--start']}` : ''}`,
     ref: buttonRef,
   };
 

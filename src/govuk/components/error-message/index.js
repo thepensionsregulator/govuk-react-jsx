@@ -9,8 +9,10 @@ function ErrorMessage(props) {
     ...attributes
   } = props;
   const classNames = govukClassNames || {};
-  classNames['govuk-visually-hidden'] = classNames['govuk-visually-hidden'] || 'govuk-visually-hidden';
-  classNames['govuk-error-message'] = classNames['govuk-error-message'] || 'govuk-error-message';
+  classNames['govuk-visually-hidden'] =
+    classNames['govuk-visually-hidden'] || 'govuk-visually-hidden';
+  classNames['govuk-error-message'] =
+    classNames['govuk-error-message'] || 'govuk-error-message';
 
   let visuallyHiddenTextComponent;
   if (visuallyHiddenText) {

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 
 function SkipLink(props) {
-  const { href, className, children, ...attributes } = props;
+  const { href, govukClassNames, className, children, ...attributes } = props;
+
+  const classNames = govukClassNames || {};
+  classNames['govuk-skip-link'] =
+    classNames['govuk-skip-link'] || 'govuk-skip-link';
 
   const skipLinkRef = React.createRef();
 
@@ -25,7 +29,7 @@ function SkipLink(props) {
   return (
     <a
       href={href}
-      className={`govuk-skip-link ${className || ''}`}
+      className={`${classNames['govuk-skip-link']} ${className || ''}`}
       data-module="govuk-skip-link"
       ref={skipLinkRef}
       {...attributes}

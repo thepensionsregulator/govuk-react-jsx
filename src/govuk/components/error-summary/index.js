@@ -4,6 +4,7 @@ const defaultRef = React.createRef();
 
 const ErrorSummary = React.forwardRef((props, ref) => {
   const {
+    govukClassNames,
     className,
     descriptionChildren,
     errorList,
@@ -11,6 +12,17 @@ const ErrorSummary = React.forwardRef((props, ref) => {
     disableAutoFocus,
     ...attributes
   } = props;
+
+  const classNames = govukClassNames || {};
+  classNames['govuk-error-summary'] =
+    classNames['govuk-error-summary'] || 'govuk-error-summary';
+  classNames['govuk-error-summary__title'] =
+    classNames['govuk-error-summary__title'] || 'govuk-error-summary__title';
+  classNames['govuk-error-summary__body'] =
+    classNames['govuk-error-summary__body'] || 'govuk-error-summary__body';
+  classNames['govuk-list'] = classNames['govuk-list'] || 'govuk-list';
+  classNames['govuk-error-summary__list'] =
+    classNames['govuk-error-summary__list'] || 'govuk-error-summary__list';
 
   const errorSummaryRef = ref || defaultRef;
 
@@ -43,7 +55,7 @@ const ErrorSummary = React.forwardRef((props, ref) => {
 
   return (
     <div
-      className={`govuk-error-summary ${className || ''}`}
+      className={`${classNames['govuk-error-summary']} ${className || ''}`}
       aria-labelledby="error-summary-title"
       role="alert"
       data-disable-auto-focus={disableAutoFocus ? 'true' : null}
@@ -51,12 +63,17 @@ const ErrorSummary = React.forwardRef((props, ref) => {
       data-module="govuk-error-summary"
       ref={errorSummaryRef}
     >
-      <h2 className="govuk-error-summary__title" id="error-summary-title">
+      <h2
+        className={classNames['govuk-error-summary__title']}
+        id="error-summary-title"
+      >
         {titleChildren}
       </h2>
-      <div className="govuk-error-summary__body">
+      <div className={classNames['govuk-error-summary__body']}>
         {description}
-        <ul className="govuk-list govuk-error-summary__list">
+        <ul
+          className={`${classNames['govuk-list']} ${classNames['govuk-error-summary__list']}`}
+        >
           {errorList
             ? errorList.map((error, index) => {
                 const { reactListKey, children, href, ...errorAttributes } =

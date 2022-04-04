@@ -1,13 +1,27 @@
 import React from 'react';
 
 function Fieldset(props) {
-  const { legend, className, children, ...attributes } = props;
+  const { legend, govukClassNames, className, children, ...attributes } = props;
+  const classNames = govukClassNames || {};
+  classNames['govuk-fieldset'] =
+    classNames['govuk-fieldset'] || 'govuk-fieldset';
+  classNames['govuk-fieldset__legend'] =
+    classNames['govuk-fieldset__legend'] || 'govuk-fieldset__legend';
+  classNames['govuk-fieldset__heading'] =
+    classNames['govuk-fieldset__heading'] || 'govuk-fieldset__heading';
+
   let legendComponent;
   if (legend && legend.children) {
     legendComponent = (
-      <legend className={`govuk-fieldset__legend ${legend.className || ''}`}>
+      <legend
+        className={`${classNames['govuk-fieldset__legend']} ${
+          legend.className || ''
+        }`}
+      >
         {legend.isPageHeading ? (
-          <h1 className="govuk-fieldset__heading">{legend.children}</h1>
+          <h1 className={classNames['govuk-fieldset__heading']}>
+            {legend.children}
+          </h1>
         ) : (
           legend.children
         )}
@@ -16,7 +30,10 @@ function Fieldset(props) {
   }
 
   return (
-    <fieldset className={`govuk-fieldset ${className || ''}`} {...attributes}>
+    <fieldset
+      className={`${classNames['govuk-fieldset']} ${className || ''}`}
+      {...attributes}
+    >
       {legendComponent}
       {children}
     </fieldset>

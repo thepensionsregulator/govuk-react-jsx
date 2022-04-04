@@ -4,6 +4,7 @@ import { Label, Hint, ErrorMessage } from '../..';
 
 const Textarea = React.forwardRef((props, ref) => {
   const {
+    govukClassNames,
     className,
     'aria-describedby': describedBy,
     errorMessage,
@@ -14,6 +15,16 @@ const Textarea = React.forwardRef((props, ref) => {
     ...attributes
   } = props;
 
+  const classNames = govukClassNames || {};
+  classNames['govuk-form-group'] =
+    classNames['govuk-form-group'] || 'govuk-form-group';
+  classNames['govuk-form-group--error'] =
+    classNames['govuk-form-group--error'] || 'govuk-form-group--error';
+  classNames['govuk-textarea'] =
+    classNames['govuk-textarea'] || 'govuk-textarea';
+  classNames['govuk-textarea--error'] =
+    classNames['govuk-textarea--error'] || 'govuk-textarea--error';
+
   let describedByValue = describedBy;
   let hintComponent;
   let errorMessageComponent;
@@ -21,30 +32,38 @@ const Textarea = React.forwardRef((props, ref) => {
   if (hint) {
     const hintId = `${id}-hint`;
     describedByValue += ` ${hintId}`;
-    hintComponent = <Hint {...hint} id={hintId} />;
+    hintComponent = (
+      <Hint {...hint} id={hintId} govukClassNames={govukClassNames} />
+    );
   }
 
   if (errorMessage) {
     const errorId = id ? `${id}-error` : '';
     describedByValue += ` ${errorId}`;
-    errorMessageComponent = <ErrorMessage {...errorMessage} id={errorId} />;
+    errorMessageComponent = (
+      <ErrorMessage
+        {...errorMessage}
+        id={errorId}
+        govukClassNames={govukClassNames}
+      />
+    );
   }
 
   return (
     <div
-      className={`govuk-form-group${
-        errorMessage ? ' govuk-form-group--error' : ''
+      className={`${classNames['govuk-form-group']}${
+        errorMessage ? ` ${classNames['govuk-form-group--error']}` : ''
       } ${formGroup?.className || ''}`}
     >
-      <Label {...label} htmlFor={id} />
+      <Label {...label} htmlFor={id} govukClassNames={govukClassNames} />
       {hintComponent}
       {errorMessageComponent}
       <textarea
         {...attributes}
         id={id}
         ref={ref}
-        className={`govuk-textarea${
-          errorMessage ? ' govuk-textarea--error' : ''
+        className={`${classNames['govuk-textarea']}${
+          errorMessage ? ` ${classNames['govuk-textarea--error']}` : ''
         } ${className || ''}`}
         aria-describedby={describedByValue.trim() || null}
       />

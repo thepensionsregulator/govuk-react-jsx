@@ -4,6 +4,7 @@ import omit from './omitKey';
 
 function Boolean(props) {
   const {
+    govukClassNames,
     className,
     errorMessage,
     fieldset,
@@ -18,6 +19,30 @@ function Boolean(props) {
     'aria-describedby': describedByProp,
     ...attributes
   } = props;
+  const classNames = govukClassNames || {};
+  classNames[`govuk-${controlType}`] =
+    classNames[`govuk-${controlType}`] || `govuk-${controlType}`;
+  classNames[`govuk-${controlType}__divider`] =
+    classNames[`govuk-${controlType}__divider`] ||
+    `govuk-${controlType}__divider`;
+  classNames[`govuk-${controlType}__item`] =
+    classNames[`govuk-${controlType}__item`] || `govuk-${controlType}__item`;
+  classNames[`govuk-${controlType}__input`] =
+    classNames[`govuk-${controlType}__input`] || `govuk-${controlType}__input`;
+  classNames[`govuk-${controlType}__label`] =
+    classNames[`govuk-${controlType}__label`] || `govuk-${controlType}__label`;
+  classNames[`govuk-${controlType}__hint`] =
+    classNames[`govuk-${controlType}__hint`] || `govuk-${controlType}__hint`;
+  classNames[`govuk-${controlType}__conditional`] =
+    classNames[`govuk-${controlType}__conditional`] ||
+    `govuk-${controlType}__conditional`;
+  classNames[`govuk-${controlType}__conditional--hidden`] =
+    classNames[`govuk-${controlType}__conditional--hidden`] ||
+    `govuk-${controlType}__conditional--hidden`;
+  classNames['govuk-form-group'] =
+    classNames['govuk-form-group'] || 'govuk-form-group';
+  classNames['govuk-form-group--error'] =
+    classNames['govuk-form-group--error'] || 'govuk-form-group--error';
 
   const controlRef = useRef();
   const idPrefixValue = idPrefix || name;
@@ -70,7 +95,9 @@ function Boolean(props) {
     const hintId = `${idPrefixValue}-hint`;
     describedBy += ` ${hintId}`;
 
-    hintComponent = <Hint {...hint} id={hintId} />;
+    hintComponent = (
+      <Hint {...hint} id={hintId} govukClassNames={govukClassNames} />
+    );
   }
 
   const hasFieldset = !!fieldset;
@@ -78,7 +105,13 @@ function Boolean(props) {
   if (errorMessage) {
     const errorId = `${idPrefixValue}-error`;
     describedBy += ` ${errorId}`;
-    errorMessageComponent = <ErrorMessage {...errorMessage} id={errorId} />;
+    errorMessageComponent = (
+      <ErrorMessage
+        {...errorMessage}
+        id={errorId}
+        govukClassNames={govukClassNames}
+      />
+    );
   }
 
   const innerHtml = (
@@ -87,7 +120,7 @@ function Boolean(props) {
       {errorMessageComponent}
 
       <div
-        className={`govuk-${controlType} ${className || ''}`}
+        className={`${classNames[`govuk-${controlType}`]} ${className || ''}`}
         {...attributes}
         ref={controlRef}
         data-module={`govuk-${controlType}`}
@@ -139,7 +172,7 @@ function Boolean(props) {
               return (
                 <div
                   key={reactListKey || index}
-                  className={`govuk-${controlType}__divider`}
+                  className={classNames[`govuk-${controlType}__divider`]}
                 >
                   {item.divider}
                 </div>
@@ -148,9 +181,9 @@ function Boolean(props) {
 
             return (
               <React.Fragment key={reactListKey || index}>
-                <div className={`govuk-${controlType}__item`}>
+                <div className={classNames[`govuk-${controlType}__item`]}>
                   <input
-                    className={`govuk-${controlType}__input`}
+                    className={classNames[`govuk-${controlType}__input`]}
                     id={idValue}
                     name={nameValue}
                     type={controlType === 'radios' ? 'radio' : 'checkbox'}
@@ -164,11 +197,12 @@ function Boolean(props) {
                   <Label
                     {...{
                       ...label,
-                      className: `govuk-${controlType}__label ${
-                        label?.className || ''
-                      }`,
+                      className: `${
+                        classNames[`govuk-${controlType}__label`]
+                      } ${label?.className || ''}`,
                       htmlFor: idValue,
                       isPageHeading: false,
+                      govukClassNames,
                     }}
                   >
                     {children}
@@ -177,11 +211,12 @@ function Boolean(props) {
                     <Hint
                       {...{
                         ...itemHint,
-                        className: `govuk-${controlType}__hint ${
-                          itemHint.className || ''
-                        }`,
+                        className: `${
+                          classNames[`govuk-${controlType}__hint`]
+                        } ${itemHint.className || ''}`,
                       }}
                       id={itemHintId}
+                      govukClassNames={govukClassNames}
                     />
                   ) : (
                     ''
@@ -190,10 +225,14 @@ function Boolean(props) {
 
                 {itemConditional?.children ? (
                   <div
-                    className={`govuk-${controlType}__conditional ${
+                    className={`${
+                      classNames[`govuk-${controlType}__conditional`]
+                    } ${
                       item.checked
                         ? ''
-                        : `govuk-${controlType}__conditional--hidden`
+                        : classNames[
+                            `govuk-${controlType}__conditional--hidden`
+                          ]
                     }`}
                     id={conditionalId}
                   >
@@ -211,14 +250,15 @@ function Boolean(props) {
 
   return (
     <div
-      className={`govuk-form-group${
-        errorMessage ? ' govuk-form-group--error' : ''
+      className={`${classNames['govuk-form-group']}${
+        errorMessage ? ` ${classNames['govuk-form-group--error']}` : ''
       } ${formGroup?.className || ''}`}
     >
       {hasFieldset ? (
         <Fieldset
           {...omit(fieldset, 'role')}
           aria-describedby={describedBy.trim() || null}
+          govukClassNames={govukClassNames}
         >
           {innerHtml}
         </Fieldset>
